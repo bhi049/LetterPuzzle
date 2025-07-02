@@ -3,11 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import colors from '../theme/colors';
 
 export default function Tile({ letter, feedback }) {
-  const backgroundColor = {
-    gray: colors.tileGray,
-    yellow: colors.tileYellow,
-    green: colors.tileGreen,
-  }[feedback];
+  let backgroundColor = colors.tileAbsent;
+  if (feedback === 'green') backgroundColor = colors.tileCorrect;
+  else if (feedback === 'yellow') backgroundColor = colors.tilePresent;
 
   return (
     <View style={[styles.tile, { backgroundColor }]}>
@@ -18,16 +16,21 @@ export default function Tile({ letter, feedback }) {
 
 const styles = StyleSheet.create({
   tile: {
-    width: 40,
-    height: 40,
-    margin: 2,
+    width: 42,
+    height: 42,
+    margin: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 4,
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 2,
+    elevation: 2,
   },
   letter: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: 'bold',
+    color: colors.tileText,
+    fontSize: 20,
+    fontWeight: '600',
   },
 });

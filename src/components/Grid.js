@@ -5,7 +5,6 @@ import GuessRow from './GuessRow';
 export default function Grid({ guesses, maxRows, wordLength, currentGuess }) {
   const rows = [...guesses];
 
-  // Add the live typing row if game in progress
   if (currentGuess && rows.length < maxRows) {
     rows.push({
       guess: currentGuess.padEnd(wordLength, ' '),
@@ -23,7 +22,6 @@ export default function Grid({ guesses, maxRows, wordLength, currentGuess }) {
         />
       ))}
 
-      {/* Fill remaining empty rows */}
       {Array.from({ length: maxRows - rows.length }).map((_, idx) => (
         <View key={idx} style={styles.emptyRow}>
           {Array.from({ length: wordLength }).map((_, idx2) => (
@@ -37,18 +35,18 @@ export default function Grid({ guesses, maxRows, wordLength, currentGuess }) {
 
 const styles = StyleSheet.create({
   grid: {
-    marginVertical: 12,
+    marginVertical: 16,
   },
   emptyRow: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 4,
+    marginBottom: 6,
   },
   emptyTile: {
-    width: 40,
-    height: 40,
-    margin: 2,
-    backgroundColor: '#ddd',
-    borderRadius: 4,
+    width: 42,
+    height: 42,
+    margin: 3,
+    backgroundColor: '#E9ECEF',
+    borderRadius: 12,
   },
 });

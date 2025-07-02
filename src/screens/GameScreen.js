@@ -3,6 +3,7 @@ import { Alert, Button, ScrollView, StyleSheet, Text, TextInput, View } from 're
 import Grid from '../components/Grid';
 import { WORD_LIST } from '../data/wordList';
 import { checkGuess } from '../logic/checkGuess';
+import colors from '../theme/colors';
 
 export default function GameScreen({ navigation }) {
   const [gameStarted, setGameStarted] = useState(false);
@@ -31,7 +32,7 @@ export default function GameScreen({ navigation }) {
     setCurrentGuess('');
 
     if (currentGuess.toUpperCase() === targetWord) {
-      Alert.alert('Congratulations!', 'You guessed the word!', [
+      Alert.alert('You Win!', 'You guessed the word!', [
         { text: 'OK', onPress: () => setGameStarted(false) }
       ]);
     } else if (guesses.length + 1 >= MAX_ATTEMPTS) {
@@ -47,15 +48,19 @@ export default function GameScreen({ navigation }) {
 
       {!gameStarted ? (
         <>
-          <Text style={styles.subtitle}>Press start to begin a new game!</Text>
-          <Button title="Start Game" onPress={handleStartGame} />
-          <View style={{ marginTop: 8 }}>
-            <Button title="Go to Stats" onPress={() => navigation.navigate('Stats')} />
+          <Text style={styles.subtitle}>Press start to play!</Text>
+          <Button
+            title="Start Game"
+            color={colors.button}
+            onPress={handleStartGame}
+          />
+          <View style={{ marginTop: 10 }}>
+            <Button title="Your Stats" onPress={() => navigation.navigate('Stats')} />
           </View>
         </>
       ) : (
         <>
-          <Text style={styles.subtitle}>Guess the {targetWord.length}-letter word!</Text>
+          <Text style={styles.subtitle}>Guess the {targetWord.length}-letter word</Text>
 
           <Grid
             guesses={guesses}
@@ -72,10 +77,15 @@ export default function GameScreen({ navigation }) {
             autoCapitalize="characters"
             maxLength={targetWord.length}
           />
-          <Button title="Submit Guess" onPress={handleSubmitGuess} />
 
-          <View style={{ marginTop: 8 }}>
-            <Button title="End Game" color="red" onPress={() => setGameStarted(false)} />
+          <Button
+            title="Submit Guess"
+            color={colors.button}
+            onPress={handleSubmitGuess}
+          />
+
+          <View style={{ marginTop: 10 }}>
+            <Button title="End Game" color={colors.accent} onPress={() => setGameStarted(false)} />
           </View>
         </>
       )}
@@ -87,25 +97,29 @@ const styles = StyleSheet.create({
   container: {
     padding: 24,
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.background,
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
+    color: colors.title,
     marginBottom: 12,
   },
   subtitle: {
     fontSize: 18,
+    color: colors.subtitle,
     marginBottom: 12,
     textAlign: 'center',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 8,
+    borderColor: '#adb5bd',
+    padding: 10,
     width: '80%',
     marginBottom: 12,
     textAlign: 'center',
     fontSize: 18,
+    borderRadius: 8,
+    backgroundColor: '#fff'
   },
 });
