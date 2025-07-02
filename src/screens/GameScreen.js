@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Grid from '../components/Grid';
 import { WORD_LIST } from '../data/wordList';
 import { checkGuess } from '../logic/checkGuess';
 import colors from '../theme/colors';
 
-export default function GameScreen({ navigation }) {
+export default function GameScreen({ route, navigation }) {
   const [gameStarted, setGameStarted] = useState(false);
   const [targetWord, setTargetWord] = useState('');
   const [currentGuess, setCurrentGuess] = useState('');
   const [guesses, setGuesses] = useState([]);
 
   const MAX_ATTEMPTS = 6;
+
+    useEffect(() => {
+    if (route.params?.autoStart) {
+      handleStartGame();
+    }
+  }, [route.params]);
 
   const handleStartGame = () => {
     const randomWord = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
@@ -48,15 +54,12 @@ export default function GameScreen({ navigation }) {
 
       {!gameStarted ? (
         <>
-          <Text style={styles.subtitle}>Press start to play!</Text>
+          <Text style={styles.subtitle}>Press start to begin guessing!</Text>
           <Button
             title="Start Game"
             color={colors.button}
             onPress={handleStartGame}
           />
-          <View style={{ marginTop: 10 }}>
-            <Button title="Your Stats" onPress={() => navigation.navigate('Stats')} />
-          </View>
         </>
       ) : (
         <>
@@ -85,7 +88,7 @@ export default function GameScreen({ navigation }) {
           />
 
           <View style={{ marginTop: 10 }}>
-            <Button title="End Game" color={colors.accent} onPress={() => setGameStarted(false)} />
+            <Button title="End Game" color={colors.accent} onPress={() => navigation.navigate('Home')} />
           </View>
         </>
       )}
