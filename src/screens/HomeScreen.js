@@ -1,13 +1,26 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import colors from '../theme/colors';
 
 export default function HomeScreen({ navigation }) {
+  const handleStartGame = () => {
+    Alert.alert(
+      'Select Difficulty',
+      'Choose your level:',
+      [
+        { text: 'Easy (4-5 letters)', onPress: () => navigation.navigate('Game', { difficulty: 'easy', autoStart: true }) },
+        { text: 'Medium (6-7 letters)', onPress: () => navigation.navigate('Game', { difficulty: 'medium', autoStart: true }) },
+        { text: 'Expert (8 letters)', onPress: () => navigation.navigate('Game', { difficulty: 'expert', autoStart: true }) },
+        { text: 'Cancel', style: 'cancel' }
+      ]
+    );
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Letter Puzzle</Text>
       <Text style={styles.subtitle}>Sharpen your mind with words!</Text>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Game', { autoStart: true })}>
+      <TouchableOpacity style={styles.button} onPress={handleStartGame}>
         <Text style={styles.buttonText}>Start Game</Text>
       </TouchableOpacity>
 

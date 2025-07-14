@@ -13,14 +13,22 @@ export default function GameScreen({ route, navigation }) {
 
   const MAX_ATTEMPTS = 6;
 
-    useEffect(() => {
+  useEffect(() => {
     if (route.params?.autoStart) {
       handleStartGame();
     }
   }, [route.params]);
 
   const handleStartGame = () => {
-    const randomWord = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
+    let pool = WORD_LIST.medium; // default fallback
+
+    if (route.params?.difficulty === 'easy') {
+      pool = WORD_LIST.easy;
+    } else if (route.params?.difficulty === 'expert') {
+      pool = WORD_LIST.expert;
+    }
+
+    const randomWord = pool[Math.floor(Math.random() * pool.length)];
     setTargetWord(randomWord.toUpperCase());
     setGameStarted(true);
     setGuesses([]);
@@ -39,11 +47,11 @@ export default function GameScreen({ route, navigation }) {
 
     if (currentGuess.toUpperCase() === targetWord) {
       Alert.alert('You Win!', 'You guessed the word!', [
-        { text: 'OK', onPress: () => setGameStarted(false) }
+        { text: 'OK', onPress: () => navigation.navigate('Home') }
       ]);
     } else if (guesses.length + 1 >= MAX_ATTEMPTS) {
       Alert.alert('Game Over', `The word was: ${targetWord}`, [
-        { text: 'OK', onPress: () => setGameStarted(false) }
+        { text: 'OK', onPress: () => navigation.navigate('Home') }
       ]);
     }
   };
