@@ -1,11 +1,13 @@
 export default {
-  tileAbsent: '#CED4DA',   // light gray
-  tilePresent: '#FF6F61',  // coral
-  tileCorrect: '#008080',  // teal
-  tileText: '#ffffff',
-  background: '#F8F9FA',   // near-white
-  title: '#212529',
-  subtitle: '#495057',
-  accent: '#FF6F61',
-  button: '#008080'
+  background: '#F9F9F9',
+  tileBackground: '#E0E0E0',
+  tileText: '#222',
+  correct: '#6AAA64',    // Green 
+  present: '#C9B458',    // Yellow 
+  absent: '#787C7E',     // Dark gray 
+  button: '#4682B4',
+  accent: '#FF6B6B',
+  title: '#222',
+  subtitle: '#555',
 };
+

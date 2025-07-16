@@ -1,22 +1,29 @@
 export function checkGuess(guess, target) {
-  const result = Array(target.length).fill('gray');
+  const feedback = [];
+
   const targetLetters = target.split('');
 
-  // Mark greens
-  for (let i = 0; i < target.length; i++) {
+  // First pass - correct spots
+  for (let i = 0; i < guess.length; i++) {
     if (guess[i] === target[i]) {
-      result[i] = 'green';
-      targetLetters[i] = null;
+      feedback[i] = 'correct';
+      targetLetters[i] = null; // mark it used
+    } else {
+      feedback[i] = null;
     }
   }
 
-  // Mark yellows
-  for (let i = 0; i < target.length; i++) {
-    if (result[i] !== 'green' && targetLetters.includes(guess[i])) {
-      result[i] = 'yellow';
-      targetLetters[targetLetters.indexOf(guess[i])] = null;
+  // Second pass - present but wrong spot
+  for (let i = 0; i < guess.length; i++) {
+    if (feedback[i]) continue;
+    const idx = targetLetters.indexOf(guess[i]);
+    if (idx !== -1) {
+      feedback[i] = 'present';
+      targetLetters[idx] = null;
+    } else {
+      feedback[i] = 'absent';
     }
   }
 
-  return result;
+  return feedback;
 }

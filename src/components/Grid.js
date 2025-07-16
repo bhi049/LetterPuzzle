@@ -3,50 +3,48 @@ import { StyleSheet, View } from 'react-native';
 import GuessRow from './GuessRow';
 
 export default function Grid({ guesses, maxRows, wordLength, currentGuess }) {
-  const rows = [...guesses];
+  const rows = [];
 
-  if (currentGuess && rows.length < maxRows) {
-    rows.push({
-      guess: currentGuess.padEnd(wordLength, ' '),
-      feedback: Array(wordLength).fill('gray')
-    });
+for (let i = 0; i < maxRows; i++) {
+    if (i < guesses.length) {
+      // previous submitted guesses with feedback
+      rows.push(
+        <GuessRow
+          key={i}
+          guess={guesses[i].guess}
+          feedback={guesses[i].feedback}
+          wordLength={wordLength}
+        />
+      );
+    } else if (i === guesses.length) {
+      // active input row
+      rows.push(
+        <GuessRow
+          key={i}
+          guess={currentGuess}
+          feedback={null}
+          wordLength={wordLength}
+        />
+      );
+    } else {
+      // empty future rows
+      rows.push(
+        <GuessRow
+          key={i}
+          guess=""
+          feedback={null}
+          wordLength={wordLength}
+        />
+      );
+    }
   }
 
-  return (
-    <View style={styles.grid}>
-      {rows.map((item, idx) => (
-        <GuessRow
-          key={idx}
-          guess={item.guess}
-          feedback={item.feedback}
-        />
-      ))}
-
-      {Array.from({ length: maxRows - rows.length }).map((_, idx) => (
-        <View key={idx} style={styles.emptyRow}>
-          {Array.from({ length: wordLength }).map((_, idx2) => (
-            <View key={idx2} style={styles.emptyTile} />
-          ))}
-        </View>
-      ))}
-    </View>
-  );
+  return <View style={styles.grid}>{rows}</View>;
 }
 
 const styles = StyleSheet.create({
   grid: {
+    alignItems: 'center',
     marginVertical: 16,
-  },
-  emptyRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 6,
-  },
-  emptyTile: {
-    width: 42,
-    height: 42,
-    margin: 3,
-    backgroundColor: '#E9ECEF',
-    borderRadius: 12,
   },
 });
